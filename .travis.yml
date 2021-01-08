@@ -30,6 +30,6 @@ script:
   - echo "$CHANGED_FILES"
   - CHANGED_PHP_FILES=`echo "$CHANGED_FILES" | grep "\.php$"`
   - if [ -z "$CHANGED_PHP_FILES" ]; then travis_terminate 0; fi;
-  - echo "$CHANGED_PHP_FILES" | xargs -n1 -P4 php -l -n | (! grep -v "No syntax errors detected" )
-  - echo "$CHANGED_PHP_FILES" | xargs -n1 -P4 bin/phpcs --standard=PSR1,PSR2 --exclude=Generic.Files.LineLength,PSR1.Methods.CamelCapsMethodName --extensions=php -s
+  - if [ ! -z "$CHANGED_PHP_FILES" ]; then echo "$CHANGED_PHP_FILES" | xargs -n1 -P4 php -l -n | (! grep -v "No syntax errors detected" ); fi;
+  - if [ ! -z "$CHANGED_PHP_FILES" ]; then echo "$CHANGED_PHP_FILES" | xargs -n1 -P4 bin/phpcs --standard=PSR1,PSR2 --exclude=Generic.Files.LineLength,PSR1.Methods.CamelCapsMethodName --extensions=php -s; fi;
   - bin/phpunit
